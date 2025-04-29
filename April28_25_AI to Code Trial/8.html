@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow Full Animation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .transition-all {
+      transition: all 0.4s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 p-10 min-h-screen">
+
+  <!-- Title -->
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold">Real-time Workflow (Advanced)</h1>
+    <button id="retry-button" class="hidden bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-sm px-4 py-2 rounded-md transition">Retry Failed Step</button>
+  </div>
+
+  <!-- Workflow Nodes -->
+  <div class="flex items-start space-x-10">
+
+    <!-- Node: Build -->
+    <div class="flex flex-col items-center w-64">
+      <div id="build-card" class="bg-white p-6 rounded-lg shadow-md w-full text-center border-2 border-gray-300 transition-all min-h-[260px] flex flex-col justify-between">
+        <div class="space-y-2">
+          <div id="build-status" class="text-blue-600 text-xs font-semibold">Running...</div>
+          <h2 class="font-bold text-lg">Build & Test</h2>
+          <p class="text-sm text-gray-500">123 tests</p>
+          <div id="build-log" class="hidden text-xs text-gray-400 mt-2">-</div>
+        </div>
+        <div id="build-spinner" class="mt-4 animate-spin w-5 h-5 border-2 border-blue-400 border-t-transparent rounded-full mx-auto"></div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex flex-col justify-center">
+      <div class="w-10 border-t-2 border-dashed border-gray-400"></div>
+      <div class="w-3 h-3 bg-gray-400 transform rotate-45 mt-[-6px] ml-[14px]"></div>
+    </div>
+
+    <!-- Node: Staging -->
+    <div class="flex flex-col items-center w-64">
+      <div id="staging-card" class="bg-white p-6 rounded-lg shadow-md w-full text-center border-2 border-gray-300 transition-all min-h-[260px] flex flex-col justify-between">
+        <div class="space-y-2">
+          <div id="staging-status" class="text-gray-400 text-xs font-semibold">Waiting</div>
+          <h2 class="font-bold text-lg">Deploy to Staging</h2>
+          <p class="text-sm text-gray-500">00:23 by bogyo</p>
+          <div id="staging-log" class="hidden text-xs text-gray-400 mt-2">-</div>
+        </div>
+        <div id="staging-spinner" class="mt-4 hidden animate-spin w-5 h-5 border-2 border-green-400 border-t-transparent rounded-full mx-auto"></div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="flex flex-col justify-center">
+      <div class="w-10 border-t-2 border-dashed border-gray-400"></div>
+      <div class="w-3 h-3 bg-gray-400 transform rotate-45 mt-[-6px] ml-[14px]"></div>
+    </div>
+
+    <!-- Node: Production -->
+    <div class="flex flex-col items-center w-64">
+      <div id="production-card" class="bg-white p-6 rounded-lg shadow-md w-full text-center border-2 border-gray-300 transition-all min-h-[260px] flex flex-col justify-between">
+        <div class="space-y-2">
+          <div id="production-status" class="text-gray-400 text-xs font-semibold">Waiting</div>
+          <h2 class="font-bold text-lg">Deploy to Production</h2>
+          <p class="text-sm text-gray-500">Auto-Promoted</p>
+          <div id="production-log" class="hidden text-xs text-gray-400 mt-2">-</div>
+        </div>
+        <div id="production-spinner" class="mt-4 hidden animate-spin w-5 h-5 border-2 border-green-400 border-t-transparent rounded-full mx-auto"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Animation Script -->
+  <script>
+    function passStep(cardId, statusId, spinnerId, logId, success = true) {
+      const card = document.getElementById(cardId);
+      const status = document.getElementById(statusId);
+      const spinner = document.getElementById(spinnerId);
+      const log = document.getElementById(logId);
+
+      spinner.classList.add('hidden');
+      log.classList.remove('hidden');
+
+      if (success) {
+        card.classList.replace('border-gray-300', 'border-green-400');
+        status.textContent = 'Passed';
+        status.className = 'text-green-600 text-xs font-semibold';
+        log.textContent = '✅ Step completed successfully.';
+      } else {
+        card.classList.replace('border-gray-300', 'border-red-400');
+        status.textContent = 'Failed';
+        status.className = 'text-red-600 text-xs font-semibold';
+        log.textContent = '❌ An error occurred. See details.';
+        document.getElementById('retry-button').classList.remove('hidden');
+      }
+    }
+
+    // Workflow simulation
+    setTimeout(() => {
+      passStep('build-card', 'build-status', 'build-spinner', 'build-log');
+      document.getElementById('staging-spinner').classList.remove('hidden');
+      document.getElementById('staging-status').textContent = 'Running...';
+      document.getElementById('staging-status').className = 'text-blue-600 text-xs font-semibold';
+    }, 2000);
+
+    setTimeout(() => {
+      passStep('staging-card', 'staging-status', 'staging-spinner', 'staging-log', false); // simulate failure
+      document.getElementById('production-status').textContent = 'Blocked';
+      document.getElementById('production-status').className = 'text-gray-400 text-xs font-semibold';
+    }, 4000);
+
+    document.getElementById('retry-button').onclick = () => {
+      document.getElementById('retry-button').classList.add('hidden');
+      document.getElementById('staging-spinner').classList.remove('hidden');
+      document.getElementById('staging-status').textContent = 'Running...';
+      document.getElementById('staging-status').className = 'text-blue-600 text-xs font-semibold';
+      document.getElementById('staging-card').classList.replace('border-red-400', 'border-gray-300');
+      document.getElementById('staging-log').classList.add('hidden');
+
+      setTimeout(() => {
+        passStep('staging-card', 'staging-status', 'staging-spinner', 'staging-log');
+        document.getElementById('production-spinner').classList.remove('hidden');
+        document.getElementById('production-status').textContent = 'Running...';
+        document.getElementById('production-status').className = 'text-blue-600 text-xs font-semibold';
+      }, 2000);
+
+      setTimeout(() => {
+        passStep('production-card', 'production-status', 'production-spinner', 'production-log');
+      }, 4000);
+    };
+  </script>
+
+</body>
+</html>

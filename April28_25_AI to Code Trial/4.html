@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-6 min-h-screen">
+  <!-- Header -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold mb-2">Remove insights tabs flags</h1>
+    <div class="flex items-center space-x-4 text-sm text-gray-600">
+      <span class="font-medium">Workflow</span>
+      <span>•</span>
+      <span class="text-green-600 font-semibold">123 passed</span>
+      <span>•</span>
+      <span>Artifacts</span>
+    </div>
+  </div>
+
+  <!-- Status Overview -->
+  <div class="bg-white p-4 rounded-lg shadow mb-8">
+    <div class="flex items-center space-x-4">
+      <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-semibold">Passed</span>
+      <div>
+        <div class="text-gray-800 font-medium">Build & Test - 123 passed</div>
+        <div class="text-xs text-gray-500">Triggered by push to GitHub by bogyo, 23 minutes ago</div>
+      </div>
+    </div>
+    <div class="pl-8 mt-2 space-y-2">
+      <div class="flex items-center space-x-2">
+        <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-semibold">Passed</span>
+        <div class="text-gray-700 text-sm">Deploy to Staging - Promoted by bogyo, 12 minutes ago</div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-semibold">Running</span>
+        <div class="text-gray-700 text-sm">Deploy to Production - Auto-Promoted, 12 minutes ago</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline Stages -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Build & Test -->
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h2 class="text-lg font-semibold mb-4">Build & Test</h2>
+      <div class="text-xs text-gray-500 mb-2">Initializing... Waiting for previous pipelines</div>
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <h3 class="text-gray-700 font-semibold mb-2">Static code analysis</h3>
+          <ul class="space-y-1 text-sm">
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> Rubocop (00:14)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> JS Lint (00:02)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> Brakeman (00:01)</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-gray-700 font-semibold mb-2">Build</h3>
+          <div class="text-sm text-gray-400">Skipped</div>
+        </div>
+        <div>
+          <h3 class="text-gray-700 font-semibold mb-2">Tests</h3>
+          <ul class="space-y-1 text-sm">
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> RSpec 1/4 (00:04)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> RSpec 2/4 (00:04)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> RSpec 3/4 (00:05)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> RSpec 4/4 (00:04)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> JS (00:03)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> Cucumber 1/2 (00:12)</li>
+            <li class="flex items-center space-x-2"><span class="text-green-500 font-bold">✔</span> Cucumber 2/2 (00:11)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deploy to Staging -->
+    <div class="bg-white p-4 rounded-lg shadow">
+      <h2 class="text-lg font-semibold mb-4">Deploy to Staging</h2>
+      <div class="flex items-center space-x-2 mb-2">
+        <span class="text-green-500 font-bold">✔</span>
+        <span class="text-gray-700 text-sm">Deploy to Staging (00:23)</span>
+      </div>
+      <div class="text-sm text-gray-500 mb-2">by bogyo, 23 minutes ago</div>
+      <div class="border-t pt-4 mt-4">
+        <h3 class="text-gray-700 font-semibold mb-2">Kubernetes Apply</h3>
+        <div class="flex items-center space-x-2">
+          <span class="text-green-500 font-bold">✔</span>
+          <span class="text-gray-700 text-sm">00:17</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
